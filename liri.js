@@ -1,63 +1,115 @@
-require("dotenv").config();
 
-var keys = require("./keys.js");
-var spotify = new Spotify(keys.spotify);
+// Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
+var axios = require("axios");
+var fs = require("fs");
+
+//type of search tv or actor
+let search = process.argv[2];
+//person or show youre looking for
+//slice takes everything after the 3 argv and
+// "join" them into a string
+let term = process.argv.slice(3).join(" ");
+
+if (!search) {
+
+  search = "show"
+  term = "Friends"
+
+}
+
+//spotify search
+if (search === "spotify") {
+
+  console.log("we're searching for a show")
+spotify();
+
+}
+
+//movie search
+if (search==="movie"){
+
+movie();
+
+
+}
+
+
+//band search
+if (search==="bands"){
+
+  bandInTwon();
+  
+  }
+
+
+//when command is not avaible
+else{
+
+  console.log("seems like you didnt typed the right command try again!")
+}
+
+
+console.log("Search:",search)
+
+console.log("term:",term)
 
 
 
-// Takes in all of the command line arguments
-var inputString = process.argv;
-
-// Parses the command line argument to capture the "operand" (add, subtract, multiply, etc) and the numbers
-var action = inputString[2];
-var search = inputString.slice(3);
+//searches on spotify
+function spotify(){
 
 
+}
+// searching for a movie
+function movie(){
+// Then run a request with axios to the OMDB API with the movie specified
+var queryUrl = "http://www.omdbapi.com/?t="+term+"&apikey=f191ad9f";
+// This line is just to help us debug against the actual URL.
+console.log(queryUrl);
+   
+  // Make a request for a user with a given ID
+  axios.get(queryUrl)
+    .then(function (response) {
+      // handle success
+      console.log("working",response.data);
 
-// Determines the operand selected...
-// Based on the operand we run the appropriate math on the two numbers
-switch (action) {
+      movieInfor= response.data;
 
-  //for spotify song
-    case "spotify-this-song":
+
       
-      var Spotify = require('node-spotify-api');
- 
-      var spotify = new Spotify({
-        id: <your spotify client id>,
-        secret: <your spotify client secret>
-      });
-       
-      spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-        if (err) {
-          return console.log('Error occurred: ' + err);
-        }
-       
-      console.log(data); 
-      });
 
 
 
 
-      break;
+    })
+   
+   
+
+}
+//searches bands in town
+function bandInTwon(){
+
+  
+
+  // Then run a request with axios to the OMDB API with the movie specified
+var queryUrl = "https://rest.bandsintown.com/artists/"+term+"/events?app_id=codingbootcamp";
+// This line is just to help us debug against the actual URL.
+console.log(queryUrl);
+   
+  // Make a request for a user with a given ID
+  axios.get(queryUrl)
+    .then(function (response) {
+      // handle success
+      console.log("working",response.data);
+
+      movieInfor= response.data;
+
+
       
-      
-      
-      //for concert
-  case "concert-this":
 
 
 
 
-    break;
+    })
 
-//movies
-  case "movie-this":
-
-
-
-    break;
-
-
-
-};
+}
