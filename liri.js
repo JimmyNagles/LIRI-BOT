@@ -1,6 +1,10 @@
 // Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
 var axios = require("axios");
 var fs = require("fs");
+var Spotify = require('node-spotify-api');
+
+
+
 
 //type of search tv or actor
 let search = process.argv[2];
@@ -19,14 +23,14 @@ if (!search) {
 //spotify search
 if (search === "spotify") {
 
-  console.log("we're searching for a show")
+  console.log("we're searching on spotify")
   spotify();
 
 }
 
 //movie search
 if (search === "movie") {
-
+  console.log("searching movie!")
   movie();
 
 
@@ -35,7 +39,7 @@ if (search === "movie") {
 
 //band search
 if (search === "bands") {
-
+  console.log("searching band!")
   bandInTwon();
 
 }
@@ -58,6 +62,22 @@ console.log("term:", term)
 function spotify() {
 
 
+
+
+
+  spotify.search({
+    type: 'track',
+    query: term
+  }, function (err, data) {
+
+
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
+
+    console.log(data);
+  });
+
 }
 
 
@@ -75,24 +95,19 @@ function movie() {
   axios.get(queryUrl)
     .then(function (response) {
       // handle success
-      
+
 
       movieInfo = response.data;
 
 
 
-      console.log( response.data.Title);
-         console.log(response.data.Year);
-      console.log( response.data.imdbRating);
-         console.log( response.data.Country);
-       console.log( response.data.Language);
-        console.log(response.data.Plot);
-       console.log( response.data.Actors);
-
-
-
-
-
+      console.log(response.data.Title);
+      console.log(response.data.Year);
+      console.log(response.data.imdbRating);
+      console.log(response.data.Country);
+      console.log(response.data.Language);
+      console.log(response.data.Plot);
+      console.log(response.data.Actors);
 
 
     })
@@ -108,20 +123,21 @@ function bandInTwon() {
   // Then run a request with axios to the OMDB API with the movie specified
   var queryUrl = "https://rest.bandsintown.com/artists/" + term + "/events?app_id=codingbootcamp";
   // This line is just to help us debug against the actual URL.
- 
+
 
   // Make a request for a user with a given ID
   axios.get(queryUrl)
     .then(function (response) {
       // handle success
-      
-      
-
-       console.log(response.data[0].venue.name);
-       console.log(`${response.data[0].venue.city}, ${response.data[0].venue.region}, ${response.data[0].venue.country}`);
-      //  console.log(moment(response.data[0].datetime).format(‘dddd, MMMM Do YYYY, h: mm a’));
 
 
+
+      console.log("venue name:",response.data[0].venue.name);
+      console.log("country:",response.data[0].venue.country);
+      console.log("city:",response.data[0].venue.city);
+      console.log("Region:",response.data[0].venue.region)
+      console.log("get tickets:",response.data[0].offers[0].url)
+  
 
 
 
