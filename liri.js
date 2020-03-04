@@ -1,8 +1,8 @@
 // Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
 var axios = require("axios");
+require("dotenv").config();
+var keys= require("./keys");
 var fs = require("fs");
-var Spotify = require('node-spotify-api');
-
 
 
 
@@ -62,20 +62,23 @@ console.log("term:", term)
 function spotify() {
 
 
+  var Spotify = require('node-spotify-api');
+ 
+  var spotify = new Spotify(keys.spotify);
 
 
 
-  spotify.search({
-    type: 'track',
-    query: term
-  }, function (err, data) {
-
-
+  spotify.search({ type: 'track', query: term , limit: 1 }, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
 
-    console.log(data);
+ console.log("searching!!")
+  console.log("tracks",data.tracks.items[0])
+  console.log("------------")
+  console.log("Artist Name:",data.tracks.items[0].artists[0].name)
+  console.log("Name:",data.tracks.items[0].name)
+  console.log("Preview Url:",data.tracks.items[0].preview_url)
   });
 
 }
@@ -115,6 +118,14 @@ function movie() {
 
 
 }
+
+
+
+
+
+
+
+
 //searches bands in town
 function bandInTwon() {
 
