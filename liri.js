@@ -1,7 +1,7 @@
 // Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
 var axios = require("axios");
 require("dotenv").config();
-var keys= require("./keys");
+var keys = require("./keys");
 var fs = require("fs");
 
 
@@ -63,22 +63,29 @@ function spotify() {
 
 
   var Spotify = require('node-spotify-api');
- 
+
   var spotify = new Spotify(keys.spotify);
 
 
 
-  spotify.search({ type: 'track', query: term , limit: 1 }, function(err, data) {
+  spotify.search({
+    type: 'track',
+    query: term,
+    limit: 1
+  }, function (err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
 
- console.log("searching!!")
-  console.log("tracks",data.tracks.items[0])
-  console.log("------------")
-  console.log("Artist Name:",data.tracks.items[0].artists[0].name)
-  console.log("Name:",data.tracks.items[0].name)
-  console.log("Preview Url:",data.tracks.items[0].preview_url)
+    console.log("------------")
+    console.log("searching!!")
+    console.log("Artist Name:", data.tracks.items[0].artists[0].name)
+    console.log("------------")
+    console.log("Album Name", data.tracks.items[0].album.name)
+    console.log("------------")
+    console.log("Name:", data.tracks.items[0].name)
+    console.log("------------")
+    console.log("Preview Url:", data.tracks.items[0].preview_url)
   });
 
 }
@@ -143,12 +150,12 @@ function bandInTwon() {
 
 
 
-      console.log("venue name:",response.data[0].venue.name);
-      console.log("country:",response.data[0].venue.country);
-      console.log("city:",response.data[0].venue.city);
-      console.log("Region:",response.data[0].venue.region)
-      console.log("get tickets:",response.data[0].offers[0].url)
-  
+      console.log("venue name:", response.data[0].venue.name);
+      console.log("country:", response.data[0].venue.country);
+      console.log("city:", response.data[0].venue.city);
+      console.log("Region:", response.data[0].venue.region)
+      console.log("get tickets:", response.data[0].offers[0].url)
+
 
 
 
